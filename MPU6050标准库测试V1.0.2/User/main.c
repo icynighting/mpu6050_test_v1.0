@@ -186,7 +186,6 @@ int main(void)
 //				LCD_ShowNum(30+48+40,260,temp%10,1,16);		//显示小数部分  
 				t=0;
 				LED0=!LED0;//LED闪烁
-				USART_SendData(USART1,1);   
 			}
 		}
 		t++; 
