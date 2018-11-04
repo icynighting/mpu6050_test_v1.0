@@ -1,4 +1,3 @@
-#include "Bsp_Init.h"
 #include "Bsp_MPU6050_Init.h"
 #include "delay.h"
 #include "led.h"
@@ -82,23 +81,12 @@ void usart1_report_imu(short aacx,short aacy,short aacz,short gyrox,short gyroy,
 	tbuf[21]=pitch&0XFF;
 	tbuf[22]=(yaw>>8)&0XFF;
 	tbuf[23]=yaw&0XFF;
-	usart1_niming_report(0XAF,tbuf,28);//飞控显示帧,0XAF
+	usart1_niming_report(0XAF,tbuf,28);//显示帧,0XAF
 } 
 
 int main(void)
 {
-//     Bsp_Init();
-//     delay_init(168);
-//    while(1)
-//    {
-// 	GPIO_SetBits(GPIOC,GPIO_Pin_11);
-//       delay_ms(500); 
-//	GPIO_ResetBits(GPIOC,GPIO_Pin_11);
-//	 delay_ms(500);
-//    }
-	
 	u8 t=0,report=1;			//默认开启上报
-//	u8 key;
 	float pitch,roll,yaw; 		//欧拉角
 	short aacx,aacy,aacz;		//加速度传感器原始数据
 	short gyrox,gyroy,gyroz;	//陀螺仪原始数据
@@ -107,38 +95,14 @@ int main(void)
 	delay_init(168);  //初始化延时函数
 	uart_init(500000);		//初始化串口波特率为500000
 	LED_Init();//初始化LED 
-//	KEY_Init();					//初始化按键
-// 	LCD_Init();					//LCD初始化
 	MPU_Init();					//初始化MPU6050
-// 	POINT_COLOR=RED;//设置字体为红色 
-//	LCD_ShowString(30,50,200,16,16,"Explorer STM32F4");	
-//	LCD_ShowString(30,70,200,16,16,"MPU6050 TEST");	
-//	LCD_ShowString(30,90,200,16,16,"ATOM@ALIENTEK");
-//	LCD_ShowString(30,110,200,16,16,"2014/5/9");
 	while(mpu_dmp_init())
 	{
-//		LCD_ShowString(30,130,200,16,16,"MPU6050 Error");
-//		delay_ms(200);
-//		LCD_Fill(30,130,239,130+16,WHITE);
-// 		delay_ms(200);
+
 	}
-//	LCD_ShowString(30,130,200,16,16,"MPU6050 OK");
-//	LCD_ShowString(30,150,200,16,16,"KEY0:UPLOAD ON/OFF");
-//	POINT_COLOR=BLUE;//设置字体为蓝色 
-// 	LCD_ShowString(30,170,200,16,16,"UPLOAD ON ");	 
-// 	LCD_ShowString(30,200,200,16,16," Temp:    . C");	
-// 	LCD_ShowString(30,220,200,16,16,"Pitch:    . C");	
-// 	LCD_ShowString(30,240,200,16,16," Roll:    . C");	 
-// 	LCD_ShowString(30,260,200,16,16," Yaw :    . C");	 
+
  	while(1)
 	{
-//		key=KEY_Scan(0);
-//		if(key==KEY0_PRES)
-//		{
-//			report=!report;
-////			if(report)LCD_ShowString(30,170,200,16,16,"UPLOAD ON ");
-////			else LCD_ShowString(30,170,200,16,16,"UPLOAD OFF");
-//		}
 		if(mpu_dmp_get_data(&pitch,&roll,&yaw)==0)
 		{ 
 			temp=MPU_Get_Temperature();	//得到温度值
@@ -150,39 +114,23 @@ int main(void)
 			{ 
 				if(temp<0)
 				{
-//					LCD_ShowChar(30+48,200,'-',16,0);		//显示负号
 					temp=-temp;		//转为正数
 				}
-//				else LCD_ShowChar(30+48,200,' ',16,0);		//去掉负号 
-//				LCD_ShowNum(30+48+8,200,temp/100,3,16);		//显示整数部分	    
-//				LCD_ShowNum(30+48+40,200,temp%10,1,16);		//显示小数部分 
 				temp=pitch*10;
 				if(temp<0)
 				{
-//					LCD_ShowChar(30+48,220,'-',16,0);		//显示负号
 					temp=-temp;		//转为正数
 				}
-//				else LCD_ShowChar(30+48,220,' ',16,0);		//去掉负号 
-//				LCD_ShowNum(30+48+8,220,temp/10,3,16);		//显示整数部分	    
-//				LCD_ShowNum(30+48+40,220,temp%10,1,16);		//显示小数部分 
 				temp=roll*10;
 				if(temp<0)
 				{
-//					LCD_ShowChar(30+48,240,'-',16,0);		//显示负号
 					temp=-temp;		//转为正数
 				}
-//				else LCD_ShowChar(30+48,240,' ',16,0);		//去掉负号 
-//				LCD_ShowNum(30+48+8,240,temp/10,3,16);		//显示整数部分	    
-//				LCD_ShowNum(30+48+40,240,temp%10,1,16);		//显示小数部分 
 				temp=yaw*10;
 				if(temp<0)
 				{
-//					LCD_ShowChar(30+48,260,'-',16,0);		//显示负号
 					temp=-temp;		//转为正数
 				}
-//				else LCD_ShowChar(30+48,260,' ',16,0);		//去掉负号 
-//				LCD_ShowNum(30+48+8,260,temp/10,3,16);		//显示整数部分	    
-//				LCD_ShowNum(30+48+40,260,temp%10,1,16);		//显示小数部分  
 				t=0;
 				LED0=!LED0;//LED闪烁
 			}
