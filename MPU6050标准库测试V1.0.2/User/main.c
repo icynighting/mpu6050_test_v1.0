@@ -2,7 +2,6 @@
 #include "Bsp_MPU6050_Init.h"
 #include "delay.h"
 #include "led.h"
-#include "key.h"
 #include "sys.h"
 #include "delay.h"
 #include "usart.h"
