@@ -169,7 +169,6 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name></Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -243,6 +242,11 @@
           <count>8</count>
           <WinNumber>1</WinNumber>
           <ItemText>yaw</ItemText>
+        </Ww>
+        <Ww>
+          <count>9</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>yaw_short</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>

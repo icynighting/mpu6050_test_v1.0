@@ -7,6 +7,12 @@
 #include "inv_mpu_dmp_motion_driver.h" 
 #include "inv_mpu.h"
 
+	float pitch,roll,yaw; 		//欧拉角
+	short pitch_short,roll_short,yaw_short; 		//欧拉角
+	short aacx,aacy,aacz;		//加速度传感器原始数据
+	short gyrox,gyroy,gyroz;	//陀螺仪原始数据
+	short temp;					//温度
+	
 //串口1发送1个字符 
 //c:要发送的字符
 void usart1_send_char(u8 c)
@@ -87,10 +93,10 @@ void usart1_report_imu(short aacx,short aacy,short aacz,short gyrox,short gyroy,
 int main(void)
 {
 	u8 t=0,report=1;			//默认开启上报
-	float pitch,roll,yaw; 		//欧拉角
-	short aacx,aacy,aacz;		//加速度传感器原始数据
-	short gyrox,gyroy,gyroz;	//陀螺仪原始数据
-	short temp;					//温度
+//	float pitch,roll,yaw; 		//欧拉角
+//	short aacx,aacy,aacz;		//加速度传感器原始数据
+//	short gyrox,gyroy,gyroz;	//陀螺仪原始数据
+//	short temp;					//温度
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//设置系统中断优先级分组2
 	delay_init(168);  //初始化延时函数
 	uart_init(500000);		//初始化串口波特率为500000
@@ -110,6 +116,9 @@ int main(void)
 			MPU_Get_Gyroscope(&gyrox,&gyroy,&gyroz);	//得到陀螺仪数据
 			if(report) mpu6050_send_data(aacx,aacy,aacz,gyrox,gyroy,gyroz);//用自定义帧发送加速度和陀螺仪原始数据
 			if(report) usart1_report_imu(aacx,aacy,aacz,gyrox,gyroy,gyroz,(int)(roll*100),(int)(pitch*100),(int)(yaw*10));
+			yaw_short = (short)yaw;
+			pitch_short = (short)pitch;
+			roll_short = (short)roll;
 			if((t%10)==0)
 			{ 
 				if(temp<0)
